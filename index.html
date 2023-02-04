@@ -1,0 +1,153 @@
+<!DOCTYPE html>
+<html lang="en-gb">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <meta http-equiv="X-UA-Compatible" content="ie=edge" />
+    <link
+      rel="stylesheet"
+      href="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/css/bootstrap.min.css"
+    />
+    <link
+      rel="stylesheet"
+      href="https://use.fontawesome.com/releases/v5.8.1/css/all.css"
+      integrity="sha384-50oBUHEmvpQ+1lW4y57PTFmhCaXp0ML5d60M1M7uH2+nqUivzIebhndOJK28anvf"
+      crossorigin="anonymous"
+    />
+    <link
+      href="https://fonts.googleapis.com/css?family=Open+Sans&display=swap"
+      rel="stylesheet"
+    />
+    <link rel="stylesheet" href="style.css" />
+    <title>Work Day Scheduler</title>
+  </head>
+
+  <body>
+    <header class="jumbotron">
+      <h1 class="display-3">Work Day Scheduler</h1>
+      <p class="lead">A simple calendar app for scheduling your work day</p>
+      <p id="currentDay" class="lead"></p>
+    </header>
+    <div class="container">
+      
+  <table id="schedule">
+    <thead>
+      <!-- <tr>
+        <th>Time</th>
+        <th>Text Box</th>
+        <th>Button 1</th>
+        <th>Button 2</th>
+      </tr> -->
+    </thead>
+    <tbody>
+      <tr class="time-slot" id="9">
+        <td class="time">9:00 AM</td>
+        <td><input type="text" class="textbox" id="9am"></td>
+        <td><button class="save" id="9amsave">Save Notes</button></td>
+        <td><button class="clear" id="9amclear">Clear Notes</button></td>
+      </tr>
+      <tr class="time-slot" id="10">
+        <td class="time">10:00 AM</td>
+        <td><input type="text" class="textbox" id="10am"></td>
+        <td><button class="save" id="10amsave">Save Notes</button></td>
+        <td><button class="clear" id="10amclear">Clear Notes</button></td>
+      </tr>
+      <tr class="time-slot" id="11">
+        <td class="time">11:00 AM</td>
+        <td><input type="text" class="textbox" id="11am"></td>
+        <td><button class="save" id="11amsave">Save Notes</button></td>
+        <td><button class="clear" id="11amclear">Clear Notes</button></td>
+      </tr>
+      <tr class="time-slot" id="12">
+        <td class="time">12:00 PM</td>
+        <td><input type="text" class="textbox" id="12pm"></td>
+        <td><button class="save" id="12pmsave">Save Notes</button></td>
+        <td><button class="clear" id="12pmclear">Clear Notes</button></td>
+      </tr>
+      <tr class="time-slot" id="13">
+        <td class="time">1:00 PM</td>
+        <td><input type="text" class="textbox" id="1pm"></td>
+        <td><button class="save" id="2pmsave">Save Notes</button></td>
+        <td><button class="clear" id="1pmclear">Clear Notes</button></td>
+      </tr>
+      <tr class="time-slot" id="14">
+        <td class="time">2:00 PM</td>
+        <td><input type="text" class="textbox" id="2pm"></td>
+        <td><button class="save" id="2pmsave">Save Notes</button></td>
+        <td><button class="clear" id="2pmclear">Clear Notes</button></td>
+      </tr>
+      <tr class="time-slot" id="15">
+        <td class="time">3:00 PM</td>
+        <td><input type="text" class="textbox" id="3pm"></td>
+        <td><button class="save" id="3pmsave">Save Notes</button></td>        
+          <td><button class="clear" id="3pmclear">Clear Notes</button></td>
+      </tr>
+      <tr class="time-slot" id="16">
+        <td class="time">4:00 PM</td>
+        <td><input type="text" class="textbox" id="4pm"></td>
+        <td><button class="save" id="4pmsave">Save Notes</button></td>        
+          <td><button class="clear" id="4pmclear">Clear Notes</button></td>
+      </tr>
+
+      <tr class="time-slot" id="17">
+        <td class="time">5:00 PM</td>
+        <td><input type="text" class="textbox" id="5pm"></td>
+        <td><button class="save" id="5pmsave">Save Notes</button></td>
+        <td><button class="clear" id="5pmclear">Clear Notes</button></td>
+      </tr>
+    </tbody>
+  </table>
+    </div>
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.2.1/jquery.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/moment.js/2.24.0/moment.min.js"></script>
+    <script>
+      $(document).ready(function(){
+      
+        // center the table css({"propertyname":"value","propertyname":"value",...});
+        $('#schedule').css({
+          'margin': '0 auto',
+          'width': '50%'
+        });
+      
+        // get the current hour
+        var currentHour = moment().hour();
+      
+        // update row background color based on current hour
+        $('.time-slot').each(function(){
+          var hour = parseInt($(this).attr('id'));
+          if (hour < currentHour) {
+            $(this).css('background-color', '#ccc');
+          } else if (hour > currentHour) {
+            $(this).css('background-color', '#9acd32');
+          } else {
+            $(this).css('background-color', '#ff69b4');
+          }
+        });
+      
+        // get data from local storage when page refreshes
+        $('.textbox').each(function(){
+          var id = $(this).attr('id');
+          var data = localStorage.getItem(id);
+          $(this).val(data);
+        });
+      
+        // save data to local storage
+        $('.save').click(function(){
+          var id = $(this).attr('id').replace('save', '');
+          var data = $('#' + id).val();
+          localStorage.setItem(id, data);
+        });
+      
+        // clear data in local storage
+        $('.clear').click(function(){
+          var id = $(this).attr('id').replace('clear', '');
+          localStorage.removeItem(id);
+          $('#' + id).val('');
+        });
+      });
+      
+      </script>
+    
+  
+  </body>
+</html>
